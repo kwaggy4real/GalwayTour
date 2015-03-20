@@ -21,5 +21,6 @@
     <string name="title_activity_fb__login">FB_Login</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_fb__login__main_fragment">FB_Login_MainFragment</string>
+    <string name="title_activity_display_selected_events">DisplaySelectedEvents</string>
 
 </resources>

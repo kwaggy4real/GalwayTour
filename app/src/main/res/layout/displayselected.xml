@@ -7,6 +7,7 @@
 <LinearLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:id="@+id/layout"
     >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -144,6 +145,15 @@
         android:layout_marginBottom="5px"
         android:layout_below="@+id/ratingBar"
         />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="View on Map"
+            android:textSize="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/likeButton"
+            android:layout_alignTop="@+id/likeButton"
+            android:id="@+id/displayMap"/>
     </RelativeLayout>
 </LinearLayout>
 

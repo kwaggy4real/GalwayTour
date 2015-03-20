@@ -43,5 +43,12 @@
         sha1="8f11f56e350eacabf2273f646d981356eea0ed77">
         <dex dex="C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-eaefc6685c7c7457043bd331be48b38e3a41b148.jar" />
     </item>
+    <item
+        jar="C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-7fa96547cb949b5ddef148ce0d559541ebe425c9.jar" />
+    </item>
 
 </items>

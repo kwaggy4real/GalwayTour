@@ -12,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -29,13 +30,10 @@ import java.util.List;
 
 public class Display_Attractions extends ListActivity{
 
-	final String TAG_SUCCESS = "success";
-    final String TAG_KEEPERS	 = "keeper_info";
     final String TAG_FNAME = "firstName";
-    final String TAG_LNAME = "lastName";
-    static final String KEEPER_TAG = "hivesOwned";
     List<String> returned_data = new ArrayList<String>();
     List<retrievedData> retrieved_data = new ArrayList<retrievedData>();
+    List<Retrieved_Event> retrieved_events_list = new ArrayList<Retrieved_Event>();
     
     
     
@@ -76,11 +74,34 @@ public class Display_Attractions extends ListActivity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long id) {
-				// TODO Auto-generated method stub
-					
-								
-				Class ourClass;
-				try {
+                // TODO Auto-generated method stub
+
+                //Opens up the Event Actiivity, to view selected Event
+
+                if (action_tag.equals("Events")) {
+                    Log.i("action tag for events", retrieved_events_list.get(position).getLocation());
+                    Toast.makeText(getBaseContext(), "Clicked Events", Toast.LENGTH_LONG).show();
+                    Class ourClass;
+                    try {
+                        ourClass = Class.forName("com.example.galwaytour.DisplaySelectedEvents");
+
+                        Intent intent1 = new Intent(Display_Attractions.this, ourClass);
+                        intent1.putExtra("name", retrieved_events_list.get(position).getEvent_name());
+
+                        intent1.putExtra("location", retrieved_events_list.get(position).getLocation());
+                        intent1.putExtra("start date", retrieved_events_list.get(position).getStart_date());
+                        intent1.putExtra("information", retrieved_events_list.get(position).getInformation());
+                        intent1.putExtra("image id", retrieved_events_list.get(position).getImage_id());
+                        startActivity(intent1);
+
+                    } catch (ClassNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Class ourClass;
+                    try {
 
                         ourClass = Class.forName("com.example.galwaytour.DisplaySelected");
                         Intent intent1 = new Intent(Display_Attractions.this, ourClass);
@@ -91,16 +112,18 @@ public class Display_Attractions extends ListActivity{
                         intent1.putExtra("information", retrieved_data.get(position).getInfo());
                         intent1.putExtra("tel_num", retrieved_data.get(position).getTel());
                         intent1.putExtra("email", retrieved_data.get(position).getEmail());
-                        intent1.putExtra("rating", retrieved_data.get(position).getRating());
                         intent1.putExtra("image id", retrieved_data.get(position).getImageID());
+                        intent1.putExtra("Latitude", retrieved_data.get(position).getLatitude());
+                        intent1.putExtra("Longitude", retrieved_data.get(position).getLongitude());
 
-					startActivity(intent1);					
-					
-					} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}			
+                        startActivity(intent1);
+
+                    } catch (ClassNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
 		});
 	} 
 
@@ -178,8 +201,7 @@ public class Display_Attractions extends ListActivity{
 	 						+ "Website" + ":"+ info.getString("Website") + "\n"
 	 						+ "Information" + ":" + info.getString("Information") + "\n"
 	 						+ "Telephone Number" + ":" + info.getString("Telephone_Number") + "\n"
-	 						+ "Email" + ":" + info.getString("Email") + "\n"
-	 						+ "Rating" + ":" + info.getString("Rating"));
+	 						+ "Email" + ":" + info.getString("Email"));
 	 				
 	 				String name = (String)info.get("Comp_Name").toString();
 	 				String addr = (String)info.get("Address").toString();
@@ -187,11 +209,27 @@ public class Display_Attractions extends ListActivity{
 	 				String info1 = (String)info.get("Information").toString();
 	 				String tel = (String)info.get("Telephone_Number").toString();
 	 				String email = (String)info.get("Email").toString();
-	 				String rating = (String)info.get("Rating").toString();
                     String image_id = (String)info.get("Image_ID");
+                    String latitude;
+                    String longitude;
+                    if(info.get("Latitude") == "null" || info.get("Longitude") == "null")
+                    {
+                         latitude = "";
+                         longitude = "";
+                    }
+                    else
+                    {
+                         latitude = (String) info.get("Latitude");
+                         longitude = (String) info.get("Longitude");
+                    }
+
+                  //  String Ratings_id = (String) info.get("Ratings_ID");
+                    String Ratings_id = "";
+
+
 	 				try
 	 				{
-	 				retrievedData rData = new retrievedData(name,addr,web,info1,tel,email,rating,image_id);
+	 				retrievedData rData = new retrievedData(name,addr,web,info1,tel,email,Ratings_id,image_id,latitude,longitude);
 	 				retrieved_data.add(rData);
 	 				}
 	 				catch(Exception e)
@@ -227,8 +265,7 @@ public class Display_Attractions extends ListActivity{
 	 						+ "Website" + ":"+ keepers.get("Website") + "\n"
 	 						+ "Information" + ":" + keepers.get("Information") + "\n"
 	 						+ "Telephone Number" + ":" + keepers.get("Telephone_Number") + "\n"
-	 						+ "Email" + ":" + keepers.get("Email") + "\n" 
-	 						+ "Rating" + ":" + keepers.get("Rating"));
+	 						+ "Email" + ":" + keepers.get("Email"));
 					
 	 				String name = (String)keepers.get("Comp_Name").toString();
 	 				String addr = (String)keepers.get("Address").toString();
@@ -236,11 +273,24 @@ public class Display_Attractions extends ListActivity{
 	 				String info = (String)keepers.get("Information").toString();
 	 				String tel = (String)keepers.get("Telephone_Number").toString();
 	 				String email = (String)keepers.get("Email").toString();
-	 				String rating = (String)keepers.get("Rating").toString();
                     String image_id = (String)keepers.get("Image_ID");
+                    String latitude;
+                    String longitude;
+                    if(keepers.get("Latitude") == null || keepers.get("Longitude") == null)
+                    {
+                         latitude = "";
+                         longitude = "";
+                    }
+                    else
+                    {
+                         latitude = (String) keepers.get("Latitude");
+                         longitude = (String) keepers.get("Longitude");
+                    }
+                 //   String Ratings_id = (String) keepers.get("Ratings_ID");
+                    String Ratings_id = "";
 	 				try
 	 				{
-	 				retrievedData rData = new retrievedData(name,addr,web,info,tel,email,rating,image_id);
+	 				retrievedData rData = new retrievedData(name,addr,web,info,tel,email,Ratings_id,image_id,latitude,longitude);
 	 				retrieved_data.add(rData);
 	 				}
 	 				catch(Exception e)
@@ -276,8 +326,7 @@ public class Display_Attractions extends ListActivity{
 	 						+ "Website" + ":"+ keepers.get("Website") + "\n"
 	 						+ "Information" + ":" + keepers.get("Information") + "\n"
 	 						+ "Telephone Number" + ":" + keepers.get("Telephone_Number") + "\n"
-	 						+ "Email" + ":" + keepers.get("Email") + "\n" 
-	 						+ "Rating" + ":" + keepers.get("Rating"));
+	 						+ "Email" + ":" + keepers.get("Email"));
 					
 	 				String name = (String)keepers.get("Comp_Name").toString();
 	 				String addr = (String)keepers.get("Address").toString();
@@ -285,13 +334,27 @@ public class Display_Attractions extends ListActivity{
 	 				String info = (String)keepers.get("Information").toString();
 	 				String tel = (String)keepers.get("Telephone_Number").toString();
 	 				String email = (String)keepers.get("Email").toString();
-	 				String rating = (String)keepers.get("Rating").toString();
                     String image_id = (String)keepers.get("Image_ID");
-	 				try
-	 				{
-	 				retrievedData rData = new retrievedData(name,addr,web,info,tel,email,rating,image_id);
-	 				retrieved_data.add(rData);
-	 				}
+                    String latitude;
+                    String longitude;
+                    if(keepers.get("Latitude") == null || keepers.get("Longitude") == null)
+                    {
+                         latitude = "";
+                         longitude = "";
+                    }
+                    else
+                    {
+                         latitude = (String) keepers.get("Latitude");
+                         longitude = (String) keepers.get("Longitude");
+                    }
+             //       String Ratings_id = (String) keepers.get("Ratings_ID");
+                    String Ratings_id = "";
+
+                    try
+                    {
+                        retrievedData rData = new retrievedData(name,addr,web,info,tel,email,Ratings_id,image_id,latitude,longitude);
+                        retrieved_data.add(rData);
+                    }
 	 				catch(Exception e)
 	 				{
 	 					e.printStackTrace();
@@ -322,8 +385,7 @@ public class Display_Attractions extends ListActivity{
 	 						+ "Website" + ":"+ keepers.get("Website") + "\n"
 	 						+ "Information" + ":" + keepers.get("Information") + "\n"
 	 						+ "Telephone Number" + ":" + keepers.get("Telephone_Number") + "\n"
-	 						+ "Email" + ":" + keepers.get("Email") + "\n" 
-	 						+ "Rating" + ":" + keepers.get("Rating"));
+	 						+ "Email" + ":" + keepers.get("Email"));
 	 				
 	 				String name = (String)keepers.get("Comp_Name").toString();
 	 				String addr = (String)keepers.get("Address").toString();
@@ -331,13 +393,27 @@ public class Display_Attractions extends ListActivity{
 	 				String info = (String)keepers.get("Information").toString();
 	 				String tel = (String)keepers.get("Telephone_Number").toString();
 	 				String email = (String)keepers.get("Email").toString();
-	 				String rating = (String)keepers.get("Rating").toString();
                     String image_id = (String)keepers.get("Image_ID");
-	 				try
-	 				{
-	 				retrievedData rData = new retrievedData(name,addr,web,info,tel,email,rating,image_id);
-	 				retrieved_data.add(rData);
-	 				}
+                    String latitude;
+                    String longitude;
+                    if(keepers.get("Latitude") == null || keepers.get("Longitude") == null)
+                    {
+                         latitude = "";
+                         longitude = "";
+                    }
+                    else
+                    {
+                         latitude = (String) keepers.get("Latitude");
+                         longitude = (String) keepers.get("Longitude");
+                    }
+
+                String Ratings_id = "";
+
+                    try
+                    {
+                        retrievedData rData = new retrievedData(name,addr,web,info,tel,email,Ratings_id,image_id,latitude,longitude);
+                        retrieved_data.add(rData);
+                    }
 	 				catch(Exception e)
 	 				{
 	 					e.printStackTrace();
@@ -366,10 +442,46 @@ public class Display_Attractions extends ListActivity{
 					
 					
 					//data which adds to the list
-					returned_data.add(TAG_FNAME + ":"+ keepers.get(TAG_FNAME) + "\n"
+					returned_data.add(TAG_FNAME + ":"+ keepers.get("Event_Name") + "\n"
 							+ "Location" + ":" + keepers.getString("Location") + ","  + "\n"
 	 						+ "Start Date" + ":"+ keepers.get("Start_Date") + "\n"
-	 						+ "Information" + ":" + keepers.get("Information"));					
+	 						+ "Information" + ":" + keepers.get("Information"));
+
+
+                    String name = (String)keepers.get("Event_Name").toString();
+                    String location = (String) keepers.get("Location").toString();
+                    String start_date = (String) keepers.get("Start_Date").toString();
+                    String information = (String) keepers.get("Information").toString();
+                    String image_id = (String)keepers.get("Image_Id");
+
+                    Log.i("Event Details:", name + " " + location + " " + start_date + " " + information + " ");
+
+
+                    String latitude = "";
+                    String longitude = "";
+                  /*  if(keepers.get("Latitude") == null || keepers.get("Longitude") == null)
+                    {
+                        latitude = "";
+                        longitude = "";
+                    }
+                    else
+                    {
+                        latitude = (String) keepers.get("Latitude");
+                        longitude = (String) keepers.get("Longitude");
+                    }*/
+
+                    //   String Ratings_id = (String) keepers.get("Ratings_ID");
+                    String Ratings_id = "";
+
+                    try
+                    {
+                        Retrieved_Event retrieved_event = new Retrieved_Event(name, start_date, "", information, location, image_id);
+                        retrieved_events_list.add(retrieved_event);
+                    }
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
 				}				
 	 		}
 			catch(JSONException ex)
@@ -391,8 +503,10 @@ public class Display_Attractions extends ListActivity{
     	String Email;
     	String rating;
         String image_id;
+        String latitude;
+        String longitude;
     	
-    	public retrievedData(String name, String address, String website, String info, String tel_num, String email, String rating,String image_id)
+    	public retrievedData(String name, String address, String website, String info, String tel_num, String email, String rating,String image_id,String lat, String lng)
     	{
     		this.name = name;
     		this.address = address;
@@ -402,6 +516,8 @@ public class Display_Attractions extends ListActivity{
     		this.Email = email;
     		this.rating = rating;
             this.image_id = image_id;
+            this.latitude = lat;
+            this.longitude = lng;
     	}
     	public String getName()
     	{
@@ -437,9 +553,17 @@ public class Display_Attractions extends ListActivity{
         {
             return image_id;
         }
-    	
-    	
-    	
+
+        public String getLatitude()
+        {
+            return latitude;
+        }
+
+        public String getLongitude()
+        {
+            return longitude;
+        }
+
     }
  }
 

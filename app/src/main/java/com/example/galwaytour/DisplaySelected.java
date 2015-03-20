@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -98,6 +99,8 @@ public class DisplaySelected extends ActionBarActivity{
     GestureDetector ges_detector;
     private ViewFlipper mFlipper;
     private int mCurrentLayoutState, mCount;
+    Button viewMap;
+    String name;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class DisplaySelected extends ActionBarActivity{
 
         displayName = (TextView) findViewById(com.example.galwaytour.R.id.displayName);
         String value = getIntent().getStringExtra("name");
+        name = value;
         displayName.setText("Name: " + value);
 
         displayAddress = (TextView) findViewById(com.example.galwaytour.R.id.displayAddress);
@@ -148,16 +152,18 @@ public class DisplaySelected extends ActionBarActivity{
         RatingBar ratingBar = (RatingBar) findViewById(com.example.galwaytour.R.id.ratingBar);
         ratingBar.setRating(rating);
 
-        ges_detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
+        final String Latitude = getIntent().getStringExtra("Latitude");
+        final String Longitude = getIntent().getStringExtra("Longitude");
+
+        ges_detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2,
                                    float velocityX, float velocityY) {
 
-                if(e1.getX()- 250 > e2.getX())
-                {
+                if (e1.getX() - 250 > e2.getX()) {
 
-                    if(images.isEmpty() == false) {
+                    if (images.isEmpty() == false) {
                         if (count < images.size() - 1) {
                             count = count + 1;
                             Log.i("Count", Integer.toString(count));
@@ -166,11 +172,9 @@ public class DisplaySelected extends ActionBarActivity{
                         userpicture.setVisibility(View.VISIBLE);
                         userpicture.setImageBitmap(images.get(count));
                     }
-                }
-                else if(e1.getX() < e2.getX() - 250)
-                {
+                } else if (e1.getX() < e2.getX() - 250) {
 
-                    if(images.isEmpty() == false) {
+                    if (images.isEmpty() == false) {
                         if (count > 0) {
                             userpicture = (ImageView) findViewById(com.example.galwaytour.R.id.displayImage);
                             userpicture.setVisibility(View.VISIBLE);
@@ -190,6 +194,7 @@ public class DisplaySelected extends ActionBarActivity{
             }
 
         });
+
 
         try {
 
@@ -213,8 +218,30 @@ public class DisplaySelected extends ActionBarActivity{
             Log.i("FAcebook Dialog", "Can use facebook dialog");
         }
 
+        viewMap = (Button) findViewById(R.id.displayMap);
 
-    }
+        if (Latitude.isEmpty() == true || Longitude.isEmpty() == true) {
+
+            viewMap.setVisibility(View.INVISIBLE);
+        }
+
+            viewMap.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        Intent intent = new Intent(DisplaySelected.this, MapFragment.class);
+                        intent.putExtra("Latitude", Latitude);
+                        intent.putExtra("Longitude", Longitude);
+                        intent.putExtra("Name", name);
+
+                        startActivity(intent);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+        }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

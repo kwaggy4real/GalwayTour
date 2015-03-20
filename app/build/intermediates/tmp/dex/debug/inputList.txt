@@ -5,3 +5,4 @@ C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexe
 C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-eaefc6685c7c7457043bd331be48b38e3a41b148.jar
 C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-3b37ad62740a87e3af5c57db4be6200ed2ffd0db.jar
 C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-400f23006ad88c6964c5ffbbe6ad079b46a328b8.jar
+C:\Users\Airis\AndroidstudioProjects\GalwayTour\app\build\intermediates\pre-dexed\debug\classes-7fa96547cb949b5ddef148ce0d559541ebe425c9.jar
