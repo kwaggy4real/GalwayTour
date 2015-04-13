@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/displayImage"
+            android:adjustViewBounds="true"
            />
 
 
@@ -28,11 +29,12 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
         android:gravity="left"
         android:textSize="20dp"
-        android:layout_marginTop="5px"
-        android:layout_marginBottom="5px"
+         android:layout_marginLeft="7dp"
+         android:layout_marginRight="7dp"
+         android:layout_marginTop="10px"
+         android:background="#CDC9C9"
         android:id ="@+id/displayName"
         android:layout_below="@+id/displayImage"></TextView>
     
@@ -42,11 +44,12 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
         android:gravity="left"
         android:textSize="20dp"
-            android:layout_marginTop="5px"
-            android:layout_marginBottom="5px"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10px"
+            android:background="#CDC9C9"
         android:clickable="false"
         android:id ="@+id/displayAddress"
         android:layout_below="@+id/displayName"></TextView>
@@ -56,12 +59,14 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
+
         android:gravity="left"
         android:textSize="20dp"
         android:autoLink="web"
-            android:layout_marginTop="5px"
-            android:layout_marginBottom="5px"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10px"
+            android:background="#CDC9C9"
         android:clickable="false"
         android:id ="@+id/displayWebsite"
             android:layout_below="@+id/displayAddress"></TextView>
@@ -70,12 +75,14 @@
     <TextView
             android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5px"
-        android:layout_marginBottom="5px"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="10px"
+        android:background="#CDC9C9"
 
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
+
         android:gravity="left"
         android:textSize="20dp"
         android:id ="@+id/displayInformation"
@@ -88,11 +95,13 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
+
         android:gravity="left"
         android:textSize="20dp"
-        android:layout_marginTop="5px"
-        android:layout_marginBottom="5px"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10px"
+            android:background="#CDC9C9"
         android:autoLink="phone"
         android:clickable="false"
         android:id ="@+id/displayTelNum"
@@ -103,10 +112,12 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textColor="#000000"
-        android:layout_marginLeft="5dp"
+
         android:gravity="left"
-            android:layout_marginTop="5px"
-            android:layout_marginBottom="5px"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10px"
+            android:background="#CDC9C9"
         android:textSize="20dp"
         android:autoLink="email"
         android:clickable="false"
@@ -122,6 +133,7 @@
             android:layout_marginTop="5px"
             android:layout_marginBottom="5px"
         android:layout_marginLeft="5dp"
+            android:background="#CDC9C9"
         android:textSize="20dp"
         android:id ="@+id/displayRating"
         android:layout_below="@+id/displayEmail"    ></TextView>
@@ -133,6 +145,7 @@
         android:layout_marginBottom="5px"
         android:layout_height="wrap_content"
         android:numStars="5"
+        android:background="#CDC9C9"
         android:stepSize="1.0"
         android:layout_below="@+id/displayRating"/>
 
@@ -149,11 +162,26 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="View on Map"
-            android:textSize="30dp"
+            android:textColor="#FFFFFF"
+            android:background="@color/com_facebook_blue"
+            android:padding="7dp"
+            android:textSize="25dp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/likeButton"
             android:layout_alignTop="@+id/likeButton"
             android:id="@+id/displayMap"/>
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_event5"
+            android:padding="7dp"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@id/likeButton"
+            android:id="@+id/addToCalendar"
+            android:visibility="invisible"
+            android:layout_toRightOf="@+id/displayMap"
+            android:layout_alignTop="@+id/displayMap"
+            />
     </RelativeLayout>
 </LinearLayout>
 

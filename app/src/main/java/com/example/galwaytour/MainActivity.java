@@ -41,7 +41,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.LoginButton;
 import android.widget.Toast;
 
 
@@ -61,7 +66,7 @@ public class MainActivity extends ActionBarActivity{
 	int i = 0;
 	Button hotels,Events;
     ListView menu_list;
-	String menu[] = {"View Hotels","View Hostels","View Restaurants/Pubs","Attractions","Events","Camera","Log Out"};
+	String menu[] = {"Hotels","Hostels","Restaurants/Pubs","Attractions","Events","Leisure","Shops","B & B","Camera","Car Hires","Bike Hires","Bus Timetables","Log Out"};
     private ShareActionProvider mShareActionProvider;
     View view1;
     private TextView userDetails;
@@ -74,47 +79,10 @@ public class MainActivity extends ActionBarActivity{
         setContentView(R.layout.mainactivity);
 
 
-     //   LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-     //   view1 = inflater.inflate(R.layout.list_text_design,null);
-
-/*
-
-        userDetails = (TextView) findViewById(com.example.galwaytour.R.id.userDetails);
-       final Session session1 = Session.getActiveSession();
-        if(session1.isOpened())
-        {
-            Log.i("User Data","Session is opened");
-            Request.executeMeRequestAsync(session1, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser graphUser, Response response) {
-
-                    if(graphUser != null)
-                    {
-                        TextView v1 = (TextView) findViewById(R.id.userDetails);
-                        v1.setVisibility(View.VISIBLE);
-                        Log.i("User Data","User exists and getting Data");
-                        userDetails.setText(buildUserInfoDisplay(graphUser));
-                        new LoadImage().execute();
-                    }
-
-                    new Request(session1,"/me/picture",null, HttpMethod.GET,new Request.Callback() {
-                        public void onCompleted(Response response) {
-            /* handle the result
-                            Log.i("Response",response.toString());
-
-
-                        }
-                    }
-                    ).executeAsync();
-                }
-            });
-        }*/
-
-   //     userpicture.setImageBitmap(mIcon1);
-
        menu_list = (ListView) findViewById(R.id.listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.list_text_design,menu);
         menu_list.setAdapter(adapter);
+
 
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
      {
@@ -124,10 +92,11 @@ public class MainActivity extends ActionBarActivity{
              switch (position)
              {
                  case 0:
-                  //   Drawable img = getBaseContext().getResources().getDrawable( R.drawable.ic_launcher );
-                  //   img.setBounds( 0, 0, 100, 100 );
-                  //   TextView v1 = (TextView) v.findViewById(R.id.list_text_design1);
-                //     v1.setCompoundDrawables(img,null,null,null);
+                     Drawable img = getBaseContext().getResources().getDrawable( R.drawable.ic_launcher );
+                     img.setBounds( 0, 0, 100, 100 );
+                     TextView v1 = (TextView) v.findViewById(R.id.list_text_design1);
+                     v1.setCompoundDrawables(img,null,null,null);
+
 
                      String URL = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_Hotels.php";
                      Class ourClass = null;
@@ -204,46 +173,128 @@ public class MainActivity extends ActionBarActivity{
                      startActivity(intent4);
                      break;
                  case 5:
+                     String URL5 = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_Leisure.php";
                      Class ourClass5 = null;
+                     try {
+                         ourClass5 = Class.forName("com.example.galwaytour.Display_Attractions");
+                     } catch (ClassNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                     }
+                     Intent intent5 = new Intent(MainActivity.this,ourClass5);
+                     intent5.putExtra("selected", menu[position]);
+                     intent5.putExtra("URL", URL5);
+                     startActivity(intent5);
+                     break;
+                 case 6:
+                     String URL6 = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_Shops.php";
+                     Class ourClass6 = null;
+                     try {
+                         ourClass6 = Class.forName("com.example.galwaytour.Display_Attractions");
+                     } catch (ClassNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                     }
+                     Intent intent6 = new Intent(MainActivity.this,ourClass6);
+                     intent6.putExtra("selected", menu[position]);
+                     intent6.putExtra("URL", URL6);
+                     startActivity(intent6);
+                     break;
+                 case 7:
+                     String URL7 = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_B_and_B.php";
+                     Class ourClass7 = null;
+                     try {
+                         ourClass7 = Class.forName("com.example.galwaytour.Display_Attractions");
+                     } catch (ClassNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                     }
+                     Intent intent7 = new Intent(MainActivity.this,ourClass7);
+                     intent7.putExtra("selected", menu[position]);
+                     intent7.putExtra("URL", URL7);
+                     startActivity(intent7);
+
+                     break;
+                 case 8:
+                     Class ourClass9 = null;
                      try
                      {
-                         ourClass5 = Class.forName("com.example.galwaytour.Camera");
-                         Intent intent5 = new Intent(MainActivity.this,ourClass5);
-                         intent5.putExtra("selected", menu[position]);
-                         startActivity(intent5);
+                         ourClass9 = Class.forName("com.example.galwaytour.Camera");
+                         Intent intent9 = new Intent(MainActivity.this,ourClass9);
+                         intent9.putExtra("selected", menu[position]);
+                         startActivity(intent9);
                      }
                      catch(ClassNotFoundException e)
                      {
                          e.printStackTrace();
                      }
                      break;
-                 case 6:
 
-                     Session session = Session.getActiveSession();
-                     if(session.isOpened() == true) {
-                         session.close();
-                         Log.i("Session Status", "Session is now closed");
-                         Intent intent5 = new Intent(MainActivity.this,FB_Login.class);
-                         startActivity(intent5);
+                 case 9:
+                     String URL8 = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_CarHires.php";
+                     Class ourClass8 = null;
+                     try {
+                         ourClass8 = Class.forName("com.example.galwaytour.Display_Attractions");
+                     } catch (ClassNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
                      }
-                     else
+                     Intent intent8 = new Intent(MainActivity.this,ourClass8);
+                     intent8.putExtra("selected", menu[position]);
+                     intent8.putExtra("URL", URL8);
+                     startActivity(intent8);
+
+                     break;
+                 case 10:
+                     String URL911 = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/List_BikeHires.php";
+                     Class ourClass911 = null;
+                     try {
+                         ourClass911 = Class.forName("com.example.galwaytour.Display_Attractions");
+                     } catch (ClassNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                     }
+                     Intent intent911 = new Intent(MainActivity.this,ourClass911);
+                     intent911.putExtra("selected", menu[position]);
+                     intent911.putExtra("URL", URL911);
+                     startActivity(intent911);
+
+                     break;
+                 case 11:
+                     Intent intent122 = new Intent(MainActivity.this, Bus_Information.class);
+                     startActivity(intent122);
+                     break;
+                 case 12:
+                    Session session = Session.getActiveSession();
+                    Class ourClass12 = null;
+                     if(session.isOpened())
                      {
-                         Log.i("Session Status", "Session is not opened");
+                         session.close();
+                         if(session.isClosed()) {
+                             Toast.makeText(getBaseContext(), "User is Logged Out. Session has been closed", Toast.LENGTH_LONG).show();
+                             try {
+                                 ourClass12 = Class.forName("com.example.galwaytour.FB_Login");
+                             } catch (ClassNotFoundException e) {
+                                 // TODO Auto-generated catch block
+                                 e.printStackTrace();
+                             }
+                             Intent intent12 = new Intent(MainActivity.this,ourClass12);
+                             startActivity(intent12);
+                         }
                      }
-
+                     else if(session.isOpened())
+                     {
+                         Toast.makeText(getBaseContext(), "Session is still open, and user is Logged in", Toast.LENGTH_LONG).show();
+                     }
                      break;
              }
              Toast.makeText(getBaseContext(), "Clicked:" + menu[position], Toast.LENGTH_LONG).show();
          }
      }
-
-        );
+ );
       
     //  setListAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, menu));
     }
-
-
-
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -277,6 +328,13 @@ public class MainActivity extends ActionBarActivity{
                                 Toast.makeText(getBaseContext(), "Clicked Share", Toast.LENGTH_LONG).show();
                                 return true;
                             }
+                            else if ( id == R.id.menu_aroundme)
+                            {
+                                //Open around me class
+                                Intent intent = new Intent(MainActivity.this, Around_ME.class);
+                                startActivity(intent);
+
+                            }
 
         return super.onOptionsItemSelected(item);
     }
@@ -293,53 +351,6 @@ public class MainActivity extends ActionBarActivity{
         return userInfo.toString();
     }
 
-    private class LoadImage extends AsyncTask<String,Void,Bitmap> {
-
-        AndroidHttpClient httpClient = AndroidHttpClient.newInstance("");
-
-
-        @Override
-        protected  Bitmap doInBackground(String... arg0) {
-
-
-            URL img_value = null;
-            Bitmap image = null;
-            try {
-                //InputStream in = new java.net.URL("http://graph.facebook.com/10205084551986696/picture?type=large").openStream();
-                InputStream in = new java.net.URL("http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/Get_Images.php?id=0a3646190aa4").openStream();
-                image = BitmapFactory.decodeStream(in);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //    Bitmap mIcon1 = null;
-
-
-                //   Log.i("Image Output",mIcon1.toString());
-                //mIcon1 = BitmapFactory.decodeStream(img_value.openConnection().getInputStream());
-
-                if (image == null) {
-                    Log.i("Image Output", "mIcon is empty");
-                } else {
-                    Log.i("Image Output", "mIcon is not empty");
-                }
-
-
-
-            return image;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result)
-        {
-            userpicture = (ImageView) findViewById(R.id.userImage);
-         userpicture.setVisibility(View.VISIBLE);
-       //     userpicture.setImageResource(R.drawable.ic_hotel68);
-         userpicture.setImageBitmap(result);
-
-
-        }
-    }
 }
 
 

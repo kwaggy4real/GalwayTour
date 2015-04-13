@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".Display_Attractions">
 
     <item
         android:id="@+id/action_settings"
@@ -12,13 +12,6 @@
         app:showAsAction="always"
         android:title="Share"
         android:icon="@drawable/ic_share"
-        app:actionProviderClass= "android.support.v4.widget.ShareActionProvider"/>
-
-    <item
-        android:id="@+id/menu_aroundme"
-        app:showAsAction="always"
-        android:title="Whats Around Me?"
-        android:icon="@drawable/ic_aroundme"
         app:actionProviderClass= "android.support.v4.widget.ShareActionProvider"/>
 
 

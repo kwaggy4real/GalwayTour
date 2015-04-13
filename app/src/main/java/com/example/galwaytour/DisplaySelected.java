@@ -1,6 +1,8 @@
 package com.example.galwaytour;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -39,6 +42,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,6 +78,17 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ViewFlipper;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import android.content.Context;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
 
 
 public class DisplaySelected extends ActionBarActivity{
@@ -101,11 +116,20 @@ public class DisplaySelected extends ActionBarActivity{
     private int mCurrentLayoutState, mCount;
     Button viewMap;
     String name;
+    ImageButton imagebutton;
+    boolean isFullScreen;
+    String view_latitude;
+    String view_longitude;
+    Double my_latitude;
+    Double my_longitude;
+  //  private String name;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.galwaytour.R.layout.displayselected);
+
 
         android.app.ActionBar actionbar = getActionBar();
         actionbar.setTitle("Display Details");
@@ -132,19 +156,63 @@ public class DisplaySelected extends ActionBarActivity{
 
         displayTelNum = (TextView) findViewById(com.example.galwaytour.R.id.displayTelNum);
         String value5 = getIntent().getStringExtra("tel_num");
-        Long i = Long.parseLong(value5);
-
-        displayTelNum.setText("Telephone Number: " + i);
+        if(value5.isEmpty())
+        {
+            displayTelNum.setText("Telephone Number: ");
+        }
+        else {
+            Long i = Long.parseLong(value5);
+            displayTelNum.setText("Telephone Number: " + i);
+        }
 
         displayEmail = (TextView) findViewById(com.example.galwaytour.R.id.displayEmail);
         String value6 = getIntent().getStringExtra("email");
         displayEmail.setText("Email: " + value6);
 
         displayRating = (TextView) findViewById(com.example.galwaytour.R.id.displayRating);
-        // String value7 =getIntent().getStringExtra("rating");
-        String value7 = "4.2";
+        String value7 ="3";
         float rating = Float.parseFloat(value7);
         displayRating.setText("Rating: " + value7 + "/5");
+
+        imagebutton = (ImageButton) findViewById(R.id.addToCalendar);
+        String category = getIntent().getStringExtra("Category");
+
+        if(category.equals("Attractions"))
+        {
+            imagebutton.setVisibility(View.VISIBLE);
+            imagebutton.setOnClickListener(new OnClickListener() {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DisplaySelected.this);
+                @Override
+                public void onClick(View view) {
+
+                    Calendar cal = Calendar.getInstance();
+                    final Intent intent = new Intent(Intent.ACTION_EDIT);
+
+                    intent.setType("vnd.android.cursor.item/event");
+                    builder.setTitle("Reminder");
+                    builder.setMessage("Set a Date to Visit this Attraction");
+                    builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+
+                }
+            });
+        }
 
         String id = getIntent().getStringExtra("image id");
         URL = "http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/Get_Image_ID.php?imageid=" + id;
@@ -154,6 +222,8 @@ public class DisplaySelected extends ActionBarActivity{
 
         final String Latitude = getIntent().getStringExtra("Latitude");
         final String Longitude = getIntent().getStringExtra("Longitude");
+        String ratings_ID = getIntent().getStringExtra("Ratings_ID");
+
 
         ges_detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
@@ -186,7 +256,7 @@ public class DisplaySelected extends ActionBarActivity{
                     }
                 }
                 return true;
-            }
+        }
 
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -216,7 +286,11 @@ public class DisplaySelected extends ActionBarActivity{
         if (FacebookDialog.canPresentShareDialog(getApplicationContext(),
                 FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
             Log.i("FAcebook Dialog", "Can use facebook dialog");
-        }
+         //   FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+          //          this).setLink("https://developers.facebook.com/android")
+          //          .build();
+          //
+            }
 
         viewMap = (Button) findViewById(R.id.displayMap);
 
@@ -240,6 +314,8 @@ public class DisplaySelected extends ActionBarActivity{
                     }
                 }
             });
+
+
         }
 
 
@@ -292,9 +368,19 @@ public class DisplaySelected extends ActionBarActivity{
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello, from David Madugu");
+
             int i = Intent.ACTION_SEND.length();
             Log.i("intent", Integer.toString(i));
             startActivity(Intent.createChooser(shareIntent, "Share your thoughts"));
+            return true;
+        }
+        else if ( item.getItemId() == R.id.menu_aroundme)
+        {
+            //Open around me class
+            //Open around me class
+            Intent intent = new Intent(DisplaySelected.this, Around_ME.class);
+            startActivity(intent);
+            Toast.makeText(getBaseContext(), "Clicked Around Me", Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -384,7 +470,6 @@ public class DisplaySelected extends ActionBarActivity{
                         URL img_value = null;
                         Bitmap image = null;
                         try {
-                            //InputStream in = new java.net.URL("http://graph.facebook.com/10205084551986696/picture?type=large").openStream();
                             InputStream in = new java.net.URL("http://danu6.it.nuigalway.ie/dmadugu1/View_Uploads/Get_Images.php?id=" + id_list.get(i)).openStream();
                             image = BitmapFactory.decodeStream(in);
                         } catch (IOException e) {
@@ -393,7 +478,7 @@ public class DisplaySelected extends ActionBarActivity{
                         if (image == null) {
 
                             Log.i("Image Output", "mIcon is empty");
-                        } else {
+                        } else {//
                             images.add(image);
                             Log.i("Image Output", "mIcon is not empty");
                         }
@@ -461,7 +546,6 @@ public class DisplaySelected extends ActionBarActivity{
                 for (int i = 0; i < Details.length(); i++) {
                     //creates json object of retrieved information
                     JSONObject info = (JSONObject) Details.get(i);
-                    //data.add(TAG_FNAME + ":"+ keepers.get(TAG_FNAME));/* + ","
                     data.add("Name" + ":" + info.get("id"));
                     id_list.add((String) info.get("id").toString());
                     Log.i("Images ID's", (String) info.get("id").toString());

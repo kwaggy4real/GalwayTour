@@ -16,6 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import com.facebook.LoginActivity;
+import com.facebook.Session;
+import com.facebook.android.Facebook;
+import com.facebook.widget.LoginButton;
+import android.support.v4.app.Fragment;
 
 
 import com.example.galwaytour.*;
@@ -29,6 +34,8 @@ public class Camera extends Activity implements View.OnClickListener{
 	   Intent i;
 	   int data;
 	   Bitmap bitmap;
+        Button share;
+
 	   
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,10 @@ public class Camera extends Activity implements View.OnClickListener{
         ib = (Button) findViewById(R.id.startCamera);
         ib.setOnClickListener(this);
         iv = (ImageView) findViewById(R.id.imageView1);
+        share = (Button) findViewById(R.id.shareImage);
+        share.setOnClickListener(this);
+
+
         
         }
 	
@@ -53,6 +64,14 @@ public class Camera extends Activity implements View.OnClickListener{
 					i = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);					
 					startActivityForResult(i, data); 
 				}
+                if(v.getId() == R.id.shareImage)
+                {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("image/png");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, bitmap);
+                    startActivity(Intent.createChooser(shareIntent, "Share your thoughts"));
+                }
 			
 			}
 

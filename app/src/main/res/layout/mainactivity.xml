@@ -25,6 +25,16 @@
        android:layout_below="@+id/userImage"
      />
 
+    <com.facebook.widget.LoginButton
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/authButton"
+        />
+
 </LinearLayout>
 
 

@@ -22,5 +22,15 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_fb__login__main_fragment">FB_Login_MainFragment</string>
     <string name="title_activity_display_selected_events">DisplaySelectedEvents</string>
+    <string name="title_activity_main22">Main22Activity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_intro_screen">introScreen</string>
+    <string name="title_activity_around__me">Around_ME</string>
+    <string name="title_activity_bus__information">Bus_Information</string>
 
 </resources>

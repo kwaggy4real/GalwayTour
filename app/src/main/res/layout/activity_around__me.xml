@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.galwaytour.Around_ME">
+
+<HorizontalScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/hscroll">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_hotels"
+        android:layout_margin="1dp"
+        android:background="@drawable/ic_hotel68"
+
+        />
+
+     <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_events"
+        android:layout_margin="1dp"
+        android:background="@drawable/ic_event5"
+        android:layout_toRightOf="@+id/map_show_hotels"
+         android:layout_alignTop="@+id/map_show_hotels"
+
+
+        />
+
+     <ImageButton
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:id="@+id/map_show_res_pubs"
+       android:layout_margin="1dp"
+       android:background="@drawable/ic_cutlery6"
+       android:layout_toRightOf="@+id/map_show_events"
+       android:layout_alignTop="@+id/map_show_events"
+
+       />
+
+   <ImageButton
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:id="@+id/map_show_leisure"
+       android:layout_margin="1dp"
+       android:background="@drawable/ic_carousel"
+       android:layout_toRightOf="@+id/map_show_res_pubs"
+       android:layout_alignTop="@+id/map_show_res_pubs"
+
+       />
+
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_hostels"
+        android:layout_margin="1dp"
+        android:background="@drawable/ic_buildings10"
+        android:layout_toRightOf="@+id/map_show_leisure"
+        android:layout_alignTop="@+id/map_show_leisure"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:textSize="10dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_b_and_b"
+        android:layout_margin="1dp"
+        android:text="B and B"
+
+        android:layout_toRightOf="@+id/map_show_hostels"
+        android:layout_alignTop="@+id/map_show_hostels"
+
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:textSize="10dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_Attractions"
+        android:layout_margin="1dp"
+        android:text="Attractions"
+        android:layout_toRightOf="@+id/map_show_b_and_b"
+        android:layout_alignTop="@+id/map_show_b_and_b"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:textSize="10dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_Shops"
+        android:layout_margin="1dp"
+        android:text="Shops"
+        android:layout_toRightOf="@+id/map_show_Attractions"
+        android:layout_alignTop="@+id/map_show_Attractions"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:textSize="10dp"
+        android:layout_height="30dp"
+        android:id="@+id/map_show_BikeHires"
+        android:layout_margin="1dp"
+        android:text="Bike Hires"
+        android:layout_toRightOf="@+id/map_show_Shops"
+        android:layout_alignTop="@+id/map_show_Shops"
+        />
+    </LinearLayout>
+</HorizontalScrollView>
+
+  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/around_me_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_below="@id/hscroll"
+      tools:layout="@layout/activity_around__me" />
+
+</RelativeLayout>
